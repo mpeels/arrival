@@ -1,0 +1,12 @@
+db:
+  connection: jdbc:postgresql://localhost:5432/arrival
+  username: postgres
+  password: postgres
+
+spring:
+  application.name: arrival
+  priofiles.active: local
+  datasource:
+    url: ${db.connection}
+    username: ${db.username}
+    password: ${db.password}
