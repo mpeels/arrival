@@ -4,6 +4,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.peels.arrival.providers.exceptions.ProviderUpdateException;
 import com.peels.arrival.providers.model.Provider;
 import com.peels.arrival.providers.model.UpdateProviderRequest;
 
@@ -25,13 +26,19 @@ public class ProviderUpdater {
 
     @Transactional
     public Provider update(long id, UpdateProviderRequest request) {
-        client.sql(UPDATE_PROVIDER)
+        int rowsAffected = client.sql(UPDATE_PROVIDER)
                 .param("name", request.name())
                 .param("active", request.active())
                 .param("id", id)
                 .update();
 
-        return resolver.findById(id);
+        if (rowsAffected == 0) {
+            // nothing was updated, throw exception
+            throw new ProviderUpdateException();
+        }
+
+        return resolver.findById(id)
+                .orElseThrow(ProviderUpdateException::new);
     }
 
 }

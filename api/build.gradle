@@ -37,3 +37,12 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+bootRun {
+     debugOptions {
+        enabled = true
+        server = true
+        suspend = false
+        port = 21032
+    }
+}

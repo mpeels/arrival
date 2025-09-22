@@ -1,6 +1,7 @@
 package com.peels.arrival.providers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -46,11 +47,11 @@ public class ProviderResolver {
                 .list();
     }
 
-    public Provider findById(long id) {
+    public Optional<Provider> findById(long id) {
         return client.sql(SELECT_BY_ID)
                 .param("id", id)
                 .query(rowMapper)
-                .single();
+                .optional();
 
     }
 

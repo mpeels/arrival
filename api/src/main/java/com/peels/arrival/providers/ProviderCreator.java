@@ -6,6 +6,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.peels.arrival.providers.exceptions.ProviderCreationException;
 import com.peels.arrival.providers.model.CreateProviderRequest;
 import com.peels.arrival.providers.model.Provider;
 
@@ -35,6 +36,7 @@ public class ProviderCreator {
                 .param("name", request.name())
                 .update(keyHolder, "id");
 
-        return resolver.findById(keyHolder.getKeyAs(Long.class));
+        return resolver.findById(keyHolder.getKeyAs(Long.class))
+                .orElseThrow(ProviderCreationException::new);
     }
 }
