@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.peels.arrival.providers.exceptions.ProviderUpdateException;
 import com.peels.arrival.visitors.exceptions.InvalidNumberException;
 import com.peels.arrival.visitors.exceptions.InvalidProviderException;
+import com.peels.arrival.visitors.exceptions.ProviderInUseException;
 import com.peels.arrival.visitors.exceptions.VisitorCreationException;
 import com.peels.arrival.visitors.exceptions.VisitorUpdateException;
 
@@ -19,7 +20,8 @@ public class ArrivalExceptionHandler {
             InvalidProviderException.class,
             VisitorUpdateException.class,
             ProviderUpdateException.class,
-            VisitorCreationException.class })
+            VisitorCreationException.class,
+            ProviderInUseException.class })
     public ResponseEntity<ExceptionMessage> handleBadRequest(Exception e) {
         return new ResponseEntity<>(new ExceptionMessage(e.getMessage()), HttpStatus.BAD_REQUEST);
     }

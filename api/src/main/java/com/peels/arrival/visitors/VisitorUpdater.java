@@ -9,6 +9,7 @@ import com.peels.arrival.providers.ProviderResolver;
 import com.peels.arrival.providers.model.Provider;
 import com.peels.arrival.visitors.exceptions.InvalidNumberException;
 import com.peels.arrival.visitors.exceptions.InvalidProviderException;
+import com.peels.arrival.visitors.exceptions.ProviderInUseException;
 import com.peels.arrival.visitors.exceptions.VisitorUpdateException;
 import com.peels.arrival.visitors.model.UpdateVisitorRequest;
 import com.peels.arrival.visitors.model.Visitor;
@@ -79,6 +80,17 @@ public class VisitorUpdater {
                 id = :id;
             """;
 
+    private static final String COUNT_IN_PROGRESS_ASSIGNED_TO_PROVIDER = """
+            SELECT
+                count(*)
+            FROM
+                visitors
+            WHERE
+                provider = :provider
+                AND status = 'IN_PROGRESS'
+                AND id <> :id;
+            """;
+
     /**
      * If a number is provided, ensure it is not already used by another visitor in
      * the
@@ -107,12 +119,13 @@ public class VisitorUpdater {
     }
 
     /**
-     * Ensure the specified provider is valid and active
+     * Ensure the specified provider is valid and active and not assigned to another
+     * visitor that is IN_PROGRESS
      * 
      * @param providerId
      * @return
      */
-    private void validateProvider(Long providerId) {
+    private void validateProvider(Long providerId, long id) {
         if (providerId == null) {
             throw new InvalidProviderException();
         }
@@ -121,11 +134,21 @@ public class VisitorUpdater {
         if (provider.isEmpty() || !provider.get().active()) {
             throw new InvalidProviderException();
         }
+
+        Integer providerAssignedCount = client.sql(COUNT_IN_PROGRESS_ASSIGNED_TO_PROVIDER)
+                .param("provider", providerId)
+                .param("id", id)
+                .query(Integer.class)
+                .single();
+
+        if (providerAssignedCount > 0) {
+            throw new ProviderInUseException();
+        }
     }
 
     public Visitor update(long id, UpdateVisitorRequest request) {
         // ensure specified provider exists and is active
-        validateProvider(request.provider());
+        validateProvider(request.provider(), id);
 
         // update the general columns for the visitor
         int rowsAffected = client.sql(UPDATE_VISITOR)

@@ -14,6 +14,6 @@ CREATE TABLE IF NOT EXISTS visitors (
     provider BIGINT,
     arrival_time timestamp NOT NULL DEFAULT NOW(),
     call_time timestamp,
-    completed_time timestamp
+    completed_time timestamp,
     FOREIGN KEY (provider) REFERENCES providers(id)
 );
