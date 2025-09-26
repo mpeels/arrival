@@ -1,0 +1,23 @@
+.queueEntryDisplay {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    font-size: 3vw;
+    box-shadow: 0 1px 5px;
+    background-color: antiquewhite;
+
+    .providerName {
+        font-weight: bold;
+        padding: 0 1rem;
+        word-break: break-all;
+    }
+
+    .number {
+        display: flex;
+        justify-content: center;
+        width: 6vw;
+        background-color: rgb(35, 109, 179);
+        color: white;
+        min-width: 3rem;
+    }
+}

@@ -17,7 +17,6 @@ export const ProviderForm = ({ provider, onCancel, onSave }: Props) => {
         if (provider !== undefined) {
             form.reset({ id: provider.id, name: provider.name, active: provider.active }, { keepDefaultValues: false });
         } else {
-            console.log('resetting ');
             form.reset({ id: null, name: '', active: true }, { keepDefaultValues: false });
         }
     }, [provider]);
