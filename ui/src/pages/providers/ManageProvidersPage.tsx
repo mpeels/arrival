@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import { useProviders } from '../../api/providers/useProviders';
 import { Header } from '../../components/header/Header';
 import { Loading } from '../../components/loading/Loading';
-import styles from './ConfigurationPage.module.scss';
-import { ProviderForm } from './provider/ProviderForm';
+import styles from './ManageProvidersPage.module.scss';
+import { ProviderForm } from './form/ProviderForm';
 
-export const ConfigurationPage = () => {
+export const ManageProvidersPage = () => {
     const { providers, loading, fetchProviders, saveProvider, updateProvider } = useProviders();
     const [selectedProvider, setSelectedProvider] = useState<Provider | undefined>();
 
@@ -27,9 +27,9 @@ export const ConfigurationPage = () => {
         setSelectedProvider(undefined);
     };
     return (
-        <div className={styles.configurationPage}>
+        <div className={styles.manageProvidersPage}>
             <Loading loading={loading}>
-                <Header title="Configure providers" showHome />
+                <Header title="Manage providers" showHome />
                 <div className={styles.content}>
                     <div className={styles.providerList}>
                         <table>

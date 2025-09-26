@@ -12,7 +12,7 @@ export const LandingPage = () => {
             <div className={styles.buttons}>
                 <button onClick={() => nav(PAGES.QUEUE)}>View Queue</button>
                 <button onClick={() => nav(PAGES.VISITORS)}>Manage Visitors</button>
-                <button onClick={() => nav(PAGES.CONFIGURE)}>Configure providers</button>
+                <button onClick={() => nav(PAGES.PROVIDERS)}>Manage providers</button>
             </div>
         </div>
     );
