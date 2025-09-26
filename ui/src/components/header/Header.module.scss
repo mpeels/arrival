@@ -1,0 +1,10 @@
+.header {
+    padding: 0 1rem;
+
+    & > div {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        border-bottom: solid 1px black;
+    }
+}

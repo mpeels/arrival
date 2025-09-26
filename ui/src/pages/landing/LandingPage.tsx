@@ -1,13 +1,18 @@
+import { PAGES } from '../../pages/AppRoutes';
 import { useNavigate } from 'react-router';
+import styles from './LandingPage.module.scss';
+import { Header } from 'src/components/header/Header';
 
 export const LandingPage = () => {
     const nav = useNavigate();
+
     return (
-        <div>
-            <h1>Arrival</h1>
-            <div>
-                <button onClick={() => nav('/configure')}>Configure</button>
-                <button onClick={() => nav('/queue')}>View Queue</button>
+        <div className={styles.landingPage}>
+            <Header title="Arrival" />
+            <div className={styles.buttons}>
+                <button onClick={() => nav(PAGES.QUEUE)}>View Queue</button>
+                <button onClick={() => nav(PAGES.VISITORS)}>Manage Visitors</button>
+                <button onClick={() => nav(PAGES.CONFIGURE)}>Configure providers</button>
             </div>
         </div>
     );

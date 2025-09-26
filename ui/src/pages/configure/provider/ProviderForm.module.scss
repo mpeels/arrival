@@ -1,0 +1,47 @@
+.providerForm {
+    margin-left: 2rem;
+    padding: 1rem;
+    border: solid 1px;
+    width: 24rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: 0.2rem;
+    height: 12rem;
+
+    .cardTitle {
+        font-weight: bold;
+        padding-bottom: 0.5rem;
+        border-bottom: solid 2px #888;
+    }
+
+    .inputField {
+        width: 100%;
+        padding: 0.5rem;
+
+        & > label {
+            font-weight: bold;
+            padding-right: 0.5rem;
+        }
+
+        & > input[type='text'] {
+            width: 50%;
+        }
+
+        .errorMessage {
+            padding-bottom: 0.5rem;
+            color: rgb(135, 6, 6);
+        }
+    }
+
+    .buttonBar {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-end;
+
+        & > button {
+            padding: 0.5rem;
+        }
+    }
+}

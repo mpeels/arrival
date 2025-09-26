@@ -1,0 +1,17 @@
+.homeLink {
+    background-color: unset;
+    color: black;
+    height: 20px;
+    width: 20px;
+    padding: 0;
+
+    &:hover {
+        background-color: unset;
+    }
+
+    & > img {
+        width: 20px;
+        height: 20px;
+        color: black;
+    }
+}

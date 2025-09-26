@@ -1,0 +1,18 @@
+.landingPage {
+    display: flex;
+    flex-direction: column;
+
+    .buttons {
+        display: flex;
+        gap: 4rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        padding-top: 4rem;
+
+        & > button {
+            padding: 4rem;
+            font-size: 32px;
+            width: 35%;
+        }
+    }
+}

@@ -19,15 +19,32 @@ public class ProviderResolver {
     }
 
     private static final String SELECT_ACTIVE = """
-            SELECT id, name, active FROM providers WHERE active = TRUE;
+            SELECT
+                id, name, active
+            FROM
+                providers
+            WHERE
+                active = TRUE
+            ORDER BY
+                id asc;
             """;
 
     private static final String SELECT_ALL = """
-            SELECT id, name, active FROM providers;
+            SELECT
+                id, name, active
+            FROM
+                providers
+            ORDER BY
+                id asc;
             """;
 
     private static final String SELECT_BY_ID = """
-            SELECT id, name, active FROM providers WHERE id = :id;
+            SELECT
+                id, name, active
+            FROM
+                providers
+            WHERE
+                id = :id;
             """;
 
     private static final RowMapper<Provider> rowMapper = (rs, row) -> new Provider(

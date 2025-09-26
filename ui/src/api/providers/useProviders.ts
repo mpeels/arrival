@@ -1,19 +1,15 @@
 import { useState } from 'react';
+import type { Provider } from './model';
 
-type Provider = {
-    id: number;
-    name: string;
-    active: boolean;
-};
 export const useProviders = () => {
     const [providers, setProviders] = useState<Provider[]>([]);
     const [error, setError] = useState<string | undefined>();
     const [loading, setLoading] = useState<boolean>(false);
 
-    const fetchProviders = async () => {
+    const fetchProviders = async (all?: boolean) => {
         setLoading(true);
 
-        fetch('/api/providers', {
+        fetch(`/api/providers${all ? '/all' : ''}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json'
@@ -24,20 +20,84 @@ export const useProviders = () => {
                     response
                         .json()
                         .then(setProviders)
-                        .catch(() => setError('Failed to parse providers'));
+                        .catch(() => setError('Failed to load providers'));
                 } else {
                     response
                         .json()
-                        .then((error: {message: string}) => setError(error.message))
+                        .then((error: { message: string }) => setError(error.message))
                         .catch(() => setError('Failed to load providers'));
                 }
             })
             .catch((error) => {
                 console.error(error);
-                setError(error);
+                setError('Failed to load providers');
             })
             .finally(() => setLoading(false));
     };
 
-    return { providers, error, loading, fetchProviders };
+    const saveProvider = (
+        provider: Provider,
+        onSuccess: (provider: Provider) => void,
+        onFailure: (message: string) => void
+    ) => {
+        fetch('/api/providers', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(provider)
+        })
+            .then((response) => {
+                if (response.ok) {
+                    response
+                        .json()
+                        .then((savedProvider) => onSuccess(savedProvider))
+                        .catch(() => onFailure('Failed to create provider'));
+                } else {
+                    response
+                        .json()
+                        .then((error: { message: string }) => onFailure(error.message))
+                        .catch(() => onFailure('Failed to create provider'));
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+                onFailure('Failed to create provider');
+            });
+    };
+
+    const updateProvider = (
+        provider: Provider,
+        onSuccess: (provider: Provider) => void,
+        onFailure: (message: string) => void
+    ) => {
+        fetch(`/api/providers/${provider.id}`, {
+            method: 'PUT',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(provider)
+        })
+            .then((response) => {
+                if (response.ok) {
+                    response
+                        .json()
+                        .then((savedProvider) => onSuccess(savedProvider))
+                        .catch(() => onFailure('Failed to update provider'));
+                } else {
+                    response
+                        .json()
+                        .then((error: { message: string }) => onFailure(error.message))
+                        .catch(() => onFailure('Failed to update provider'));
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+                onFailure('Failed to update provider');
+            });
+    };
+
+    return { providers, error, loading, fetchProviders, saveProvider, updateProvider };
 };

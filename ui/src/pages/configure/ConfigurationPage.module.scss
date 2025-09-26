@@ -1,0 +1,47 @@
+.configurationPage {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .content {
+        display: flex;
+        padding: 1rem;
+        height: 100%;
+        overflow: hidden;
+
+        .providerList {
+            width: 24rem;
+            background-color: white;
+            padding: 0.5rem;
+            border-radius: 0.2rem;
+            border: solid 1px;
+            overflow-y: auto;
+
+            table {
+                width: 100%;
+                padding-top: 0.5rem;
+                border-collapse: collapse;
+
+                & > tbody tr:not(:last-child) {
+                    border-bottom: solid 1px #888;
+                }
+
+                & > tr,
+                th {
+                    text-align: left;
+                    padding: 0.5rem;
+                    border-bottom: solid 2px #888;
+                }
+
+                & > tr,
+                td {
+                    padding: 0.5rem;
+                }
+
+                .selectedRow {
+                    background-color: rgb(219, 230, 251);
+                }
+            }
+        }
+    }
+}
